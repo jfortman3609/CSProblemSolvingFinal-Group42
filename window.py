@@ -7,7 +7,8 @@ from tkinter.messagebox import showinfo
 root = tk.Tk()
 root.title('Replace me later')
 root.resizable(False, False)
-root.geometry('600x400')
+root.geometry('300x150')
+
 
 def file_selection():
     # Four options are listed below.
@@ -17,27 +18,36 @@ def file_selection():
         ('.aac files', '*.aac'),
         ('All files', '*.*')
     )
+    filetuple = ['.wav', '.mp3', '.aac'] # Tuple of supported file types.
 
+    # File explorer prompt.
     filename = fd.askopenfilename(
         title='Choose a file...',
         initialdir='/',
         filetypes=filetypes)
 
-    # This seems to store the file's name and directory as a string into the variable.
-    # gfile = filename
+    # A check is ran to see if the file type is valid.
+    if filename[-4:] in filetuple:
+        # This stores the file's name and location into a variable.
+        selectedFile = filename
 
-    # This opens up a prompt based on what file was selected.
-    # Should probably be scrapped for later.
-    showinfo(
-        title='Selected File',
-        message=filename
-    )
+        # Text on the bottom of the window is updated so that it reflects the selected file.
+        selfile_label = ttk.Label(root, text=selectedFile)
+        selfile_label.pack(side="bottom")
+    else:
+        # Popup that tells the user the file type they chose is invalid.
+        showinfo(
+            title='Invalid file type',
+            message=filename[-4:] + " is not supported. Please use\n.wav, .mp3 or .aac."
+        )
 
+
+# Audio button is set up here.
 audio_button = tk.Button(
     root,
     text="Choose file...",
     command=file_selection
 )
-audio_button.pack()
+audio_button.pack(side="top")
 
 root.mainloop()
