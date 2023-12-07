@@ -3,6 +3,12 @@ from tkinter import ttk
 from tkinter import filedialog as fd # Necessary for selecting a file
 from tkinter.messagebox import showinfo
 
+# Root window information
+root = tk.Tk()
+root.title('Replace me later')
+root.resizable(False, False)
+root.geometry('600x400')
+
 def file_selection():
     # Four options are listed below.
     filetypes = (
@@ -26,9 +32,6 @@ def file_selection():
         title='Selected File',
         message=filename
     )
-
-root = tk.Tk()
-root.title('Replace me later')
 
 audio_button = tk.Button(
     root,
