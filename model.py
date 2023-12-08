@@ -1,2 +1,4 @@
 class Model:
-    print("fart")
+    def __init__(self, file):
+        self.file = file
+

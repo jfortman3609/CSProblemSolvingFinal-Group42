@@ -16,6 +16,11 @@ class View(ttk.Frame):
         )
         self.audio_button.pack(side="top")
 
+        # The file's directory gets set at the bottom.
+        # This is updated with the use of file_selection().
+        self.selfile_label = ttk.Label(self, text="Select a file.")
+        self.selfile_label.pack(side="bottom")
+
     def file_selection(self):
         # Four options are listed below.
         filetypes = (
@@ -38,8 +43,7 @@ class View(ttk.Frame):
             selectedFile = filename
 
             # Text on the bottom of the window is updated so that it reflects the selected file.
-            selfile_label = ttk.Label(self, text=selectedFile)
-            selfile_label.pack(side="bottom")
+            self.selfile_label['text'] = "Current file: " + selectedFile
         else:
             # Popup that tells the user the file type they chose is invalid.
             showinfo(
