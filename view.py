@@ -14,12 +14,12 @@ class View(ttk.Frame):
             text="Choose file...",
             command=self.file_selection
         )
-        self.audio_button.pack(side="top")
+        self.audio_button.grid(row=0)
 
         # The file's directory gets set at the bottom.
         # This is updated with the use of file_selection().
         self.selfile_label = ttk.Label(self, text="Select a file.")
-        self.selfile_label.pack(side="bottom")
+        self.selfile_label.grid(row=1)
 
     def file_selection(self):
         # Four options are listed below.

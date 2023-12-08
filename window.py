@@ -24,6 +24,8 @@ class App(tk.Tk):
         # Set the controller's view, don't completely understand this yet
 
 
+# Runs the program.
+# Simple as that.
 if __name__ == '__main__':
     app = App()
     app.mainloop()
