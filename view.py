@@ -21,6 +21,12 @@ class View(ttk.Frame):
         self.selfile_label = ttk.Label(self, text="Select a file.")
         self.selfile_label.grid(row=1)
 
+        # A controller will be set here.
+        self.controller = None
+
+    def set_controller(self, controller):
+        self.controller = controller
+
     def file_selection(self):
         # Four options are listed below.
         filetypes = (
