@@ -83,8 +83,11 @@ class Model:
 
     # Generates a plot of the waveform. As simple as is!
     def waveformPlot(self):
+        # .wav file is read into samplerate and data
         samplerate, data = wavfile.read(self.dst)
+        # time linspace made from how long the file lasts
         time = np.linspace(0, self.sound.duration_seconds, data.shape[0])
+        # Plot is stored in wave_ax, used to load into view.py
         self.wave_ax.plot(time, data)
         self.wave_ax.set_xlabel("Time [s]")
         self.wave_ax.set_ylabel("Amplitude")

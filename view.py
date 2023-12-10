@@ -14,9 +14,13 @@ class View(ttk.Frame):
     def __init__(self, root):
         super().__init__(root)
 
+        # A frame is created to show the user the current file's info.
+        self.file_info = tk.Frame(root)
+        self.file_info.grid(row=0)
+
         # Audio button is set up here.
         self.audio_button = tk.Button(
-            self,
+            self.file_info,
             text="Choose file...",
             command=self.file_selection
         )
@@ -24,17 +28,21 @@ class View(ttk.Frame):
 
         # The file's directory gets set at the bottom.
         # This is updated with the use of file_selection().
-        self.selfile_label = ttk.Label(self, text="Select a file.")
+        self.selfile_label = ttk.Label(self.file_info, text="Select a file.")
         self.selfile_label.grid(row=1)
 
         # The graph of the currently loaded waveform will be displayed here.
         self.waveform_frame = tk.Frame(root)
-        self.waveform_frame.grid(row=2)
+        self.waveform_frame.grid(row=1)
+
+        # Another frame is created here to show statistics of the loaded waveform.
+        self.stats_frame = tk.Frame(root)
+        self.stats_frame.grid(row=2)
 
         # How long the audio file is (in seconds).
         # By default, this will be blank; it'll only appear once everything is loaded.
-        self.sound_length = ttk.Label(self, text="")
-        self.sound_length.grid(row=3)
+        self.sound_length = ttk.Label(self.stats_frame, text="")
+        self.sound_length.grid(row=0)
 
         # A controller will be set here.
         self.controller = None
@@ -49,7 +57,10 @@ class View(ttk.Frame):
     def file_selection(self):
         self.controller.file()
 
+    # Used to display the waveform's plot.
     def waveform(self):
+        # A canvas is used to display the graph.
+        # Pulls from model.py's wave_fig variable and it sets the waveform_frame as its master.
         canvas1 = FigureCanvasTkAgg(self.controller.model.wave_fig, self.waveform_frame)
         canvas1.draw()
         canvas1.get_tk_widget().grid(row=2)
