@@ -13,7 +13,6 @@ class App(tk.Tk):
         # Root window information
         self.title('Replace me later')
         self.resizable(False, False)
-        self.geometry('600x300')
 
         # A model is loaded here.
         model = Model()
@@ -21,7 +20,7 @@ class App(tk.Tk):
         # Code from view.py is loaded here.
         # In order for the view to display, .pack() has to be used.
         view = View(self)
-        view.pack()
+        view.grid()
 
         # Load a controller here
         controller = Controller(model, view)

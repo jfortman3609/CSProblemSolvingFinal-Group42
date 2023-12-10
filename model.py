@@ -19,6 +19,7 @@ class Model:
         self.dst = "output.wav"  # Output file name.
         self.sound = None # What sound is currently loaded. (Planned to be output.wav.)
         self.soundsec = None # How long the audio file lasts for
+        self.wave_fig, self.wave_ax = plt.subplots(figsize=(4,2)) # Plot for the waveform
 
     def file_selection(self):
         # Four options are listed below.
@@ -84,6 +85,6 @@ class Model:
     def waveformPlot(self):
         samplerate, data = wavfile.read(self.dst)
         time = np.linspace(0, self.sound.duration_seconds, data.shape[0])
-        # waveform = plt.plot(time, data)
-        plt.xlabel("Time [s]")
-        plt.ylabel("Amplitude")
+        self.wave_ax.plot(time, data)
+        self.wave_ax.set_xlabel("Time [s]")
+        self.wave_ax.set_ylabel("Amplitude")

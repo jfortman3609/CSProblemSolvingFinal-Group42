@@ -4,6 +4,8 @@
 # Any command that gets activated here executes things in controller.py.
 import tkinter as tk
 from tkinter import ttk
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 # from tkinter import filedialog as fd # Necessary for selecting a file
 # from tkinter.messagebox import showinfo
 
@@ -26,7 +28,8 @@ class View(ttk.Frame):
         self.selfile_label.grid(row=1)
 
         # The graph of the currently loaded waveform will be displayed here.
-
+        self.waveform_frame = tk.Frame(root)
+        self.waveform_frame.grid(row=2)
 
         # How long the audio file is (in seconds).
         # By default, this will be blank; it'll only appear once everything is loaded.
@@ -45,3 +48,8 @@ class View(ttk.Frame):
     # of events in controller.py.
     def file_selection(self):
         self.controller.file()
+
+    def waveform(self):
+        canvas1 = FigureCanvasTkAgg(self.controller.model.wave_fig, self.waveform_frame)
+        canvas1.draw()
+        canvas1.get_tk_widget().grid(row=2)

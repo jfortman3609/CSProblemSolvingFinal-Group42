@@ -27,3 +27,5 @@ class Controller:
             # The sound length gets displayed visually here.
             self.view.sound_length['text'] = ("File length (in seconds): "
                                                + str(round(self.model.soundsec, 3)))
+            self.model.waveformPlot()
+            self.view.waveform()
