@@ -1,5 +1,7 @@
 import tkinter as tk
 from view import View
+from model import Model
+from controller import Controller
 
 
 class App(tk.Tk):
@@ -11,8 +13,8 @@ class App(tk.Tk):
         self.resizable(False, False)
         self.geometry('400x150')
 
-        # A model would be loaded here.
-        # IF WE HAD ONE. (its a reference)
+        # A model is loaded here.
+        model = Model()
 
         # Code from view.py is loaded here.
         # In order for the view to display, .pack() has to be used.
@@ -20,8 +22,10 @@ class App(tk.Tk):
         view.pack()
 
         # Load a controller here
+        controller = Controller(model, view)
 
         # Set the controller's view, don't completely understand this yet
+        view.set_controller(controller)
 
 
 # Runs the program.

@@ -14,10 +14,16 @@ print(sound.duration_seconds)
 # scipy is used to load the file as something else other than how long it lasts
 samplerate, data = wavfile.read(dst)
 
-# Plot stuff
+# Waveform of the .wav file
 # A time array is created for how long the wav file lasts
 time = np.linspace(0, sound.duration_seconds, data.shape[0])
-plt.plot(time, data)
+waveform = plt.plot(time, data)
 plt.xlabel("Time [s]")
 plt.ylabel("Amplitude")
 plt.show()
+
+#
+plt.plot(time, data)
+plt.xlabel("Time [s]")
+plt.ylabel("Amplitude")
+
