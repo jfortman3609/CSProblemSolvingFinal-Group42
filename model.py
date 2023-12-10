@@ -7,6 +7,7 @@ from tkinter import filedialog as fd # Necessary for selecting a file
 from tkinter.messagebox import showinfo
 from pydub import AudioSegment # Used for reading the file
 from scipy.io import wavfile # Reads the .wav file and collects useful info from it
+from scipy.signal import welch # Used to find resonance
 
 # Graphing stuff
 import numpy as np
@@ -19,7 +20,8 @@ class Model:
         self.dst = "output.wav"  # Output file name.
         self.sound = None # What sound is currently loaded. (Planned to be output.wav.)
         self.soundsec = None # How long the audio file lasts for
-        self.wave_fig, self.wave_ax = plt.subplots(figsize=(4,2)) # Plot for the waveform
+        self.wave_fig, self.wave_ax = plt.subplots(figsize=(4, 2)) # Plot for the waveform
+        self.highest_res = None # Highest resonance of the file
 
     def file_selection(self):
         # Four options are listed below.
@@ -89,5 +91,10 @@ class Model:
         time = np.linspace(0, self.sound.duration_seconds, data.shape[0])
         # Plot is stored in wave_ax, used to load into view.py
         self.wave_ax.plot(time, data)
-        self.wave_ax.set_xlabel("Time [s]")
-        self.wave_ax.set_ylabel("Amplitude")
+        self.wave_ax.set(xlabel="Time [s]", ylabel="Amplitude")
+
+    def resonance(self):
+        # .wav file is read into samplerate and data
+        samplerate, data = wavfile.read(self.dst)
+        frequencies, power = welch(data, samplerate, nperseg=4096)
+        self.highest_res = frequencies[np.argmax(power)]

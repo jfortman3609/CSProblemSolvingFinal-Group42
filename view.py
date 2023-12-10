@@ -43,6 +43,9 @@ class View(ttk.Frame):
         # By default, this will be blank; it'll only appear once everything is loaded.
         self.sound_length = ttk.Label(self.stats_frame, text="")
         self.sound_length.grid(row=0)
+        # In extension to this, resonance is also displayed here.
+        self.highest_res = ttk.Label(self.stats_frame, text="")
+        self.highest_res.grid(row=1)
 
         # A controller will be set here.
         self.controller = None

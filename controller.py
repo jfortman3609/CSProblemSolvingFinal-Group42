@@ -29,3 +29,7 @@ class Controller:
                                                + str(round(self.model.soundsec, 3)))
             self.model.waveformPlot()
             self.view.waveform()
+            # The sound's resonance gets displayed here.
+            self.model.resonance()
+            self.view.highest_res['text'] = ("Highest resonance (in Hz): "
+                                               + str(int(self.model.highest_res)))
