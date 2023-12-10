@@ -1,11 +1,19 @@
 from tkinter import filedialog as fd # Necessary for selecting a file
 from tkinter.messagebox import showinfo
-from pydub import AudioSegment
+from pydub import AudioSegment # Used for reading the file
+from scipy.io import wavfile # Reads the .wav file and collects useful info from it
+
+# Graphing stuff
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 class Model:
     def __init__(self):
         self.file = None
         self.dst = "output.wav"  # Output file name.
+        self.sound = None # What sound is currently loaded. (Planned to be output.wav.)
+        self.soundsec = None # How long the audio file lasts for
 
     def file_selection(self):
         # Four options are listed below.
@@ -48,6 +56,9 @@ class Model:
             sound = AudioSegment.from_file(self.file, "aac")
             sound = sound.set_channels(1)
             sound.export(self.dst, format="wav")
+        # Once the conversion process is done, the sound is loaded into memory!
+        self.sound = AudioSegment.from_file(self.dst, format="wav")
+        self.soundsec = self.sound.duration_seconds
 
     # Clears any metadata attached to the file.
     # Does not need to be ran unless the file is .wav.
@@ -55,3 +66,13 @@ class Model:
         sound = AudioSegment.from_file(self.file, format="wav")
         sound = sound.set_channels(1)
         sound.export(self.dst, format="wav")
+        self.sound = AudioSegment.from_file(self.dst, format="wav")
+        self.soundsec = self.sound.duration_seconds
+
+    # Generates a plot of the waveform. As simple as is!
+    def waveformPlot(self):
+        samplerate, data = wavfile.read(self.dst)
+        time = np.linspace(0, self.sound.duration_seconds, data.shape[0])
+        # waveform = plt.plot(time, data)
+        plt.xlabel("Time [s]")
+        plt.ylabel("Amplitude")

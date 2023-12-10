@@ -10,3 +10,5 @@ class Controller:
                 self.model.convertToWav()
             else:
                 self.model.removeMeta()
+            self.view.sound_length['text'] = ("File length (in seconds): "
+                                               + str(round(self.model.soundsec, 3)))

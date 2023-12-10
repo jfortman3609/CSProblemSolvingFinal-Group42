@@ -21,6 +21,14 @@ class View(ttk.Frame):
         self.selfile_label = ttk.Label(self, text="Select a file.")
         self.selfile_label.grid(row=1)
 
+        # The graph of the currently loaded waveform will be displayed here.
+
+
+        # How long the audio file is (in seconds).
+        # By default, this will be blank; it'll only appear once everything is loaded.
+        self.sound_length = ttk.Label(self, text="")
+        self.sound_length.grid(row=3)
+
         # A controller will be set here.
         self.controller = None
 

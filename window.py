@@ -11,7 +11,7 @@ class App(tk.Tk):
         # Root window information
         self.title('Replace me later')
         self.resizable(False, False)
-        self.geometry('400x150')
+        self.geometry('600x300')
 
         # A model is loaded here.
         model = Model()
