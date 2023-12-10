@@ -1,7 +1,11 @@
+# All the visuals are managed here!
+# (Well, most of it. controller.py manages a thing or two.)
+# The controller.py and view.py files communicate with one another.
+# Any command that gets activated here executes things in controller.py.
 import tkinter as tk
 from tkinter import ttk
-from tkinter import filedialog as fd # Necessary for selecting a file
-from tkinter.messagebox import showinfo
+# from tkinter import filedialog as fd # Necessary for selecting a file
+# from tkinter.messagebox import showinfo
 
 
 class View(ttk.Frame):
@@ -32,8 +36,12 @@ class View(ttk.Frame):
         # A controller will be set here.
         self.controller = None
 
+    # The controller gets set here. (For use in window.py.)
     def set_controller(self, controller):
         self.controller = controller
 
+    # For use with audio_button.
+    # When the audio button is clicked, this function gets ran and causes a sequence
+    # of events in controller.py.
     def file_selection(self):
         self.controller.file()

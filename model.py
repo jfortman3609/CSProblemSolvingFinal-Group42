@@ -1,3 +1,8 @@
+# The goal of this script is to handle all of the processing of the program.
+# All non-visible things occur here, such as file conversion,
+# generating graphs and finding important values.
+# Any info here gets sent to controller.py which
+# also gets loaded into view.py.
 from tkinter import filedialog as fd # Necessary for selecting a file
 from tkinter.messagebox import showinfo
 from pydub import AudioSegment # Used for reading the file
@@ -46,16 +51,19 @@ class Model:
 
     # As the function explains this converts the file to a .wav file.
     # It also merges the sound channels into 1.
+    # It also sets the sound second duration variable to equal the output file's!
     def convertToWav(self):
         # A check is ran to see if the file is a .mp3 or .aac.
+        # Both of these run virtually the same, it just depends on what file it is.
         if self.file[-4:] == ".mp3":
-            sound = AudioSegment.from_mp3(self.file)
-            sound = sound.set_channels(1)
-            sound.export(self.dst, format="wav")
+            sound = AudioSegment.from_mp3(self.file) # Loads in audio
+            sound = sound.set_channels(1) # Sets to one audio channel
+            sound.export(self.dst, format="wav") # Exports as output.wav
         elif self.file[-4:] == ".aac":
-            sound = AudioSegment.from_file(self.file, "aac")
-            sound = sound.set_channels(1)
-            sound.export(self.dst, format="wav")
+            sound = AudioSegment.from_file(self.file, "aac") # Loads in audio
+            sound = sound.set_channels(1) # Sets to one audio channel
+            sound.export(self.dst, format="wav") # Exports as output.wav
+
         # Once the conversion process is done, the sound is loaded into memory!
         self.sound = AudioSegment.from_file(self.dst, format="wav")
         self.soundsec = self.sound.duration_seconds
@@ -63,9 +71,12 @@ class Model:
     # Clears any metadata attached to the file.
     # Does not need to be ran unless the file is .wav.
     def removeMeta(self):
+        # Sound is loaded, channels set to 1, then re-exported.
         sound = AudioSegment.from_file(self.file, format="wav")
         sound = sound.set_channels(1)
         sound.export(self.dst, format="wav")
+        # Like convertToWav(), this also loads the sound into memory
+        # and also stores how long the audio lasts into soundsec.
         self.sound = AudioSegment.from_file(self.dst, format="wav")
         self.soundsec = self.sound.duration_seconds
 

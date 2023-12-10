@@ -1,3 +1,5 @@
+# All of the important files that the program needs to run with are imported.
+# tkinter is also here. Say hi!
 import tkinter as tk
 from view import View
 from model import Model
@@ -24,7 +26,8 @@ class App(tk.Tk):
         # Load a controller here
         controller = Controller(model, view)
 
-        # Set the controller's view, don't completely understand this yet
+        # Set the controller's view. The view and the controller communicate
+        # directly with one another!
         view.set_controller(controller)
 
 
