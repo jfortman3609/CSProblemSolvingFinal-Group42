@@ -17,7 +17,6 @@ class View(ttk.Frame):
         # A frame is created to show the user the current file's info.
         self.file_info = tk.Frame(root)
         self.file_info.grid(row=0)
-
         # Audio button is set up here.
         self.audio_button = tk.Button(
             self.file_info,
@@ -25,7 +24,6 @@ class View(ttk.Frame):
             command=self.file_selection
         )
         self.audio_button.grid(row=0)
-
         # The file's directory gets set at the bottom.
         # This is updated with the use of file_selection().
         self.selfile_label = ttk.Label(self.file_info, text="Select a file.")
@@ -35,10 +33,10 @@ class View(ttk.Frame):
         self.waveform_frame = tk.Frame(root)
         self.waveform_frame.grid(row=1)
 
+        # The stats frame.
         # Another frame is created here to show statistics of the loaded waveform.
         self.stats_frame = tk.Frame(root)
         self.stats_frame.grid(row=2)
-
         # How long the audio file is (in seconds).
         # By default, this will be blank; it'll only appear once everything is loaded.
         self.sound_length = ttk.Label(self.stats_frame, text="")
@@ -46,6 +44,9 @@ class View(ttk.Frame):
         # In extension to this, resonance is also displayed here.
         self.highest_res = ttk.Label(self.stats_frame, text="")
         self.highest_res.grid(row=1)
+        # This shows the frequency of the currently loaded frequency graph...
+        self.current_freq = ttk.Label(self.stats_frame, text="")
+        self.current_freq.grid(row=2)
 
         # Frequencies are down here!
         # Frame for displaying the frequency plot.
@@ -63,6 +64,7 @@ class View(ttk.Frame):
             state="disabled"
         )
         self.freq_switch_button.grid(row=0)
+        # Ideally, this button should display a graph of all 3 frequencies combined.
         self.all_freq_button = tk.Button(
             self.freq_control_frame,
             text="Display All Frequencies",
@@ -70,6 +72,11 @@ class View(ttk.Frame):
             state="disabled"
         )
         self.all_freq_button.grid(row=1)
+
+        # Oh no! We have extra data that's getting graphed!
+        # Not to fear! We can repurpose that because we don't know how to get rid of it!
+        self.spec_frame = tk.Frame(root)
+        self.spec_frame.grid(row=6)
 
         # A controller will be set here.
         self.controller = None
@@ -91,3 +98,9 @@ class View(ttk.Frame):
         canvas1 = FigureCanvasTkAgg(self.controller.model.wave_fig, self.waveform_frame)
         canvas1.draw()
         canvas1.get_tk_widget().grid(row=2)
+
+    # Used for displaying a specgram.
+    def specgram(self):
+        canvas3 = FigureCanvasTkAgg(self.controller.model.spec_ax, self.spec_frame)
+        canvas3.draw()
+        canvas3.get_tk_widget().grid(row=6)

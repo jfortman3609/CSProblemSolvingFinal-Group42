@@ -16,12 +16,21 @@ import matplotlib.pyplot as plt
 
 class Model:
     def __init__(self):
-        self.file = None
-        self.dst = "output.wav"  # Output file name.
-        self.sound = None # What sound is currently loaded. (Planned to be output.wav.)
+        # Basic stuff
+        self.file = None # What file is currently selected
+        self.dst = "output.wav"  # Output file name
+
+        # .wav file info
+        self.sound = None # What sound is currently loaded (Planned to be output.wav.)
         self.soundsec = None # How long the audio file lasts for
         self.wave_fig, self.wave_ax = plt.subplots(figsize=(4, 2)) # Plot for the waveform
+
+        # The specifics of the file
         self.highest_res = None # Highest resonance of the file
+        self.rt60 = None # Reverb time
+        self.maxdb = None # Highest decibel (dB)
+        self.lowerdb = None # Highest decibel - 5
+        self.spec_fig, self.spec_ax = plt.subplots(figsize=(4, 2))  # Plot for the specgram
 
     def file_selection(self):
         # Four options are listed below.
@@ -42,9 +51,6 @@ class Model:
         # A check is ran to see if the file type is valid.
         if self.file[-4:] in filetuple:
             return True
-
-            # Text on the bottom of the window is updated so that it reflects the selected file.
-            # self.selfile_label['text'] = "Current file: " + selectedFile
         else:
             # Popup that tells the user the file type they chose is invalid.
             showinfo(
@@ -99,3 +105,33 @@ class Model:
         samplerate, data = wavfile.read(self.dst)
         frequencies, power = welch(data, samplerate, nperseg=4096)
         self.highest_res = frequencies[np.argmax(power)]
+
+    # Used for selecting a frequency under 1kHz.
+    def find_target_freq(self, freqs):
+        x = 0
+        for x in freqs:
+            if x > 1000:
+                break
+        return x
+
+    # Used for checking a frequency.
+    def freq_check(self):
+        samplerate, data = wavfile.read(self.dst)
+        spectrum, freqs, t, im = plt.specgram(data, Fs=samplerate, NFFT=1024)
+
+        # The target frequency is found using the function that was created beforehand.
+        target_freq = self.find_target_freq(freqs)
+        # The index is found...
+        index_of_freq = np.where(freqs == target_freq)[0][0]
+        # The index is plugged into the spectrum...
+        data_for_freq = spectrum[index_of_freq]
+        # Since it's in a logarithm it'll need to be accounted for.
+        data_in_db_funct = 10 * np.log10(data_for_freq)
+        return data_in_db_funct
+
+    # Used to find the index of the max dB. How handy!
+    def highest_db(self):
+        data_in_db = self.freq_check()
+        index_of_max = np.argmax(data_in_db)
+        self.maxdb = data_in_db[index_of_max]
+        print(self.maxdb)
