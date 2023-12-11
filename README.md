@@ -5,4 +5,9 @@ This Project receives an audio file, converts the file to .wav format, removes a
 
 This Project exists to compute and display data computed from an audio file.
 
---Basic Usage Instructions
+## Basic Usage Instructions
+In order to start up the application, window.py must be executed.
+
+From there, an audio file (.wav, .mp3 or .aac) can be uploaded via the "Choose File..." button and ran into the program. The program will generate all of the necessary graphs for you.
+- Press "Display Next Frequency" to cycle through low, mid and high frequencies of the file.
+- Press "Display All Frequencies" to see all 3 graphs on the same one altogether.
