@@ -11,7 +11,7 @@ class App(tk.Tk):
         super().__init__()
 
         # Root window information
-        self.title('.wav Frequency Viewer') # I mean, what else does it do?
+        self.title('Audio Frequency Viewer') # I mean, what else does it do?
         self.resizable(False, False)
 
         # A model is loaded here.
