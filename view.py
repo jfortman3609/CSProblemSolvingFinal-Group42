@@ -99,8 +99,15 @@ class View(ttk.Frame):
         canvas1.draw()
         canvas1.get_tk_widget().grid(row=2)
 
+    # Used to display the frequency graph.
+    def freqgraph(self):
+        # A canvas is used to display the graph.
+        canvas2 = FigureCanvasTkAgg(self.controller.model.freq_fig, self.freq_frame)
+        canvas2.draw()
+        canvas2.get_tk_widget().grid(row=3)
+
     # Used for displaying a specgram.
     def specgram(self):
-        canvas3 = FigureCanvasTkAgg(self.controller.model.spec_ax, self.spec_frame)
+        canvas3 = FigureCanvasTkAgg(self.controller.model.spec_fig, self.spec_frame)
         canvas3.draw()
         canvas3.get_tk_widget().grid(row=6)

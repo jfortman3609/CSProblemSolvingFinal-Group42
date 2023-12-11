@@ -36,3 +36,8 @@ class Controller:
             self.view.freq_switch_button['state'] = 'normal'
             self.view.all_freq_button['state'] = 'normal'
             self.model.highest_db()
+            self.model.true_lowerdb()
+            self.model.lowest_db()
+            self.model.reverbtime()
+            self.model.plot_freqs(1)
+            self.view.freqgraph()

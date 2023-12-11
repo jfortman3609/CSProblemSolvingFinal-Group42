@@ -27,9 +27,15 @@ class Model:
 
         # The specifics of the file
         self.highest_res = None # Highest resonance of the file
+        self.rt20 = None
         self.rt60 = None # Reverb time
         self.maxdb = None # Highest decibel (dB)
+        self.maxindex = None
         self.lowerdb = None # Highest decibel - 5
+        self.lowerindex = None
+        self.lowestdb = None # Lowest db
+        self.lowestindex = None
+        self.freq_fig, self.freq_ax = plt.subplots(figsize=(4, 2))  # Plot for the frequency
         self.spec_fig, self.spec_ax = plt.subplots(figsize=(4, 2))  # Plot for the specgram
 
     def file_selection(self):
@@ -132,6 +138,54 @@ class Model:
     # Used to find the index of the max dB. How handy!
     def highest_db(self):
         data_in_db = self.freq_check()
-        index_of_max = np.argmax(data_in_db)
-        self.maxdb = data_in_db[index_of_max]
-        print(self.maxdb)
+        self.maxindex = np.argmax(data_in_db)
+        self.maxdb = data_in_db[self.maxindex]
+        self.lowerdb = self.maxdb - 5
+
+    # Finding the nearest value of less than 5 db.
+    def find_near_value(self, array, value):
+        array = np.asarray(array)
+        idx = (np.abs(array - value)).argmin()
+        return array[idx]
+
+    # Finding the true lower db
+    def true_lowerdb(self):
+        data_in_db = self.freq_check()
+        sliced_array = data_in_db[self.maxindex:]
+        self.lowerdb = self.find_near_value(sliced_array, self.lowerdb)
+        self.lowerindex = np.where(data_in_db == self.lowerdb)
+
+    # Another one, minus -25
+    def lowest_db(self):
+        data_in_db = self.freq_check()
+        sliced_array = data_in_db[self.maxindex:]
+        self.lowestdb = self.maxdb - 25
+        self.lowestdb = self.find_near_value(sliced_array, self.lowestdb)
+
+    # RT values
+    def reverbtime(self):
+        samplerate, data = wavfile.read(self.dst)
+        spectrum, freqs, t, im = plt.specgram(data, Fs=samplerate, NFFT=1024)
+
+        self.rt20 = (t[self.lowerindex] - t[self.lowestindex])[0]
+        self.rt60 = 3 * self.rt20
+
+    # A bunch of plotting
+    def plot_freqs(self, mode):
+        samplerate, data = wavfile.read(self.dst)
+        spectrum, freqs, t, im = plt.specgram(data, Fs=samplerate, NFFT=1024)
+        self.freq_ax.clear() # Used to clear out any previous graph stored
+        # Used for obtaining the data in decibels
+        data_in_db = self.freq_check()
+        # Plot is stored in freq_ax, used to load into view.py
+        if mode == 1:
+            self.freq_ax.plot(t[self.maxindex], data_in_db[self.maxindex])
+        elif mode == 2:
+            self.freq_ax.plot(t[self.lowerindex], data_in_db[self.lowerindex])
+        elif mode == 3:
+            self.freq_ax.plot(t[self.lowestindex], data_in_db[self.lowestindex])
+        elif mode == 4:
+            self.freq_ax.plot(t[self.maxindex], data_in_db[self.maxindex])
+            self.freq_ax.plot(t[self.lowerindex], data_in_db[self.lowerindex])
+            self.freq_ax.plot(t[self.lowestindex], data_in_db[self.lowestindex])
+
