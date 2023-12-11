@@ -190,3 +190,10 @@ class Model:
             self.freq_ax.plot(t[self.lowerindex], data_in_db[self.lowerindex], 'yo')
             self.freq_ax.plot(t[self.lowestindex], data_in_db[self.lowestindex], 'ro')
         self.freq_ax.set(xlabel="Time [s]", ylabel="Power (dB)")
+
+    # Used to display the specgram of the file
+    def plot_specgram(self):
+        self.spec_ax.clear()  # Used to clear out any previous graph stored
+        samplerate, data = wavfile.read(self.dst)
+        spec_ax = plt.specgram(data, Fs=samplerate, NFFT=1024)
+        self.spec_ax.set(xlabel="Time [s]", ylabel="Frequency (Hz)")

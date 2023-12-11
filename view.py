@@ -76,10 +76,14 @@ class View(ttk.Frame):
         )
         self.all_freq_button.grid(row=1)
 
+        self.spec_info = tk.Frame(root)
+        self.spec_info.grid(row=6)
+        self.spec_popup = ttk.Label(self.spec_info, text="")
+        self.spec_popup.grid(row=0)
         # Oh no! We have extra data that's getting graphed!
         # Not to fear! We can repurpose that because we don't know how to get rid of it!
         self.spec_frame = tk.Frame(root)
-        self.spec_frame.grid(row=6)
+        self.spec_frame.grid(row=7)
 
         # A controller will be set here.
         self.controller = None

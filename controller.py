@@ -44,6 +44,9 @@ class Controller:
             self.view.rt60_diff['text'] = ("RT60 Difference (in seconds): "
                                                + str(abs(round(((sum(self.model.rt60) / len(self.model.rt60)) - 0.5), 3))))
             self.view.current_freq['text'] = "Current frequency: Low"
+            self.model.plot_specgram()
+            self.view.specgram()
+            self.view.spec_popup['text'] = "Spectogram of file:"
 
     # Changes what frequency graph is on screen.
     def freq_press(self):
