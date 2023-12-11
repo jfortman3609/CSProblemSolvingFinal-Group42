@@ -19,6 +19,7 @@ class Model:
         # Basic stuff
         self.file = None # What file is currently selected
         self.dst = "output.wav"  # Output file name
+        self.freqcounter = 1
 
         # .wav file info
         self.sound = None # What sound is currently loaded (Planned to be output.wav.)
@@ -179,13 +180,13 @@ class Model:
         data_in_db = self.freq_check()
         # Plot is stored in freq_ax, used to load into view.py
         if mode == 1:
-            self.freq_ax.plot(t[self.maxindex], data_in_db[self.maxindex])
+            self.freq_ax.plot(t[self.maxindex], data_in_db[self.maxindex], 'go')
         elif mode == 2:
-            self.freq_ax.plot(t[self.lowerindex], data_in_db[self.lowerindex])
+            self.freq_ax.plot(t[self.lowerindex], data_in_db[self.lowerindex], 'yo')
         elif mode == 3:
-            self.freq_ax.plot(t[self.lowestindex], data_in_db[self.lowestindex])
+            self.freq_ax.plot(t[self.lowestindex], data_in_db[self.lowestindex], 'ro')
         elif mode == 4:
-            self.freq_ax.plot(t[self.maxindex], data_in_db[self.maxindex])
-            self.freq_ax.plot(t[self.lowerindex], data_in_db[self.lowerindex])
-            self.freq_ax.plot(t[self.lowestindex], data_in_db[self.lowestindex])
-
+            self.freq_ax.plot(t[self.maxindex], data_in_db[self.maxindex], 'go')
+            self.freq_ax.plot(t[self.lowerindex], data_in_db[self.lowerindex], 'yo')
+            self.freq_ax.plot(t[self.lowestindex], data_in_db[self.lowestindex], 'ro')
+        self.freq_ax.set(xlabel="Time [s]", ylabel="Power (dB)")

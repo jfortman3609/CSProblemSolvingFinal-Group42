@@ -47,6 +47,9 @@ class View(ttk.Frame):
         # This shows the frequency of the currently loaded frequency graph...
         self.current_freq = ttk.Label(self.stats_frame, text="")
         self.current_freq.grid(row=2)
+        # This shows the RT60 difference...
+        self.rt60_diff = ttk.Label(self.stats_frame, text="")
+        self.rt60_diff.grid(row=3)
 
         # Frequencies are down here!
         # Frame for displaying the frequency plot.
@@ -60,7 +63,7 @@ class View(ttk.Frame):
         self.freq_switch_button = tk.Button(
             self.freq_control_frame,
             text="Display Next Frequency",
-            command=self.file_selection,
+            command=self.freq_button_pressed,
             state="disabled"
         )
         self.freq_switch_button.grid(row=0)
@@ -68,7 +71,7 @@ class View(ttk.Frame):
         self.all_freq_button = tk.Button(
             self.freq_control_frame,
             text="Display All Frequencies",
-            command=self.file_selection,
+            command=self.freq_button_all,
             state="disabled"
         )
         self.all_freq_button.grid(row=1)
@@ -90,6 +93,14 @@ class View(ttk.Frame):
     # of events in controller.py.
     def file_selection(self):
         self.controller.file()
+
+    # Changes what frequency graph is displayed.
+    def freq_button_pressed(self):
+        self.controller.freq_press()
+
+    # This displays them all.
+    def freq_button_all(self):
+        self.controller.freq_all()
 
     # Used to display the waveform's plot.
     def waveform(self):

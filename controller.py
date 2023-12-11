@@ -41,3 +41,31 @@ class Controller:
             self.model.reverbtime()
             self.model.plot_freqs(1)
             self.view.freqgraph()
+            self.view.rt60_diff['text'] = ("RT60 Difference (in seconds): "
+                                               + str(abs(round(((sum(self.model.rt60) / len(self.model.rt60)) - 0.5), 3))))
+            self.view.current_freq['text'] = "Current frequency: Low"
+
+    # Changes what frequency graph is on screen.
+    def freq_press(self):
+        if self.model.freqcounter < 3:
+            self.model.freqcounter += 1
+            self.model.plot_freqs(self.model.freqcounter)
+            self.view.freqgraph()
+            if self.model.freqcounter == 1:
+                self.view.current_freq['text'] = "Current frequency: Low"
+            elif self.model.freqcounter == 2:
+                self.view.current_freq['text'] = "Current frequency: Mid"
+            elif self.model.freqcounter == 3:
+                self.view.current_freq['text'] = "Current frequency: High"
+        else:
+            self.model.freqcounter = 1
+            self.model.plot_freqs(self.model.freqcounter)
+            self.view.freqgraph()
+            self.view.current_freq['text'] = "Current frequency: Low"
+
+    # On the other hand, this displays all the graphs.
+    def freq_all(self):
+        self.model.plot_freqs(4)
+        self.view.freqgraph()
+        self.model.freqcounter = 0
+        self.view.current_freq['text'] = "Current frequency: All"
