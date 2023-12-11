@@ -33,3 +33,5 @@ class Controller:
             self.model.resonance()
             self.view.highest_res['text'] = ("Highest resonance (in Hz): "
                                                + str(int(self.model.highest_res)))
+            self.view.freq_switch_button['state'] = 'normal'
+            self.view.all_freq_button['state'] = 'normal'

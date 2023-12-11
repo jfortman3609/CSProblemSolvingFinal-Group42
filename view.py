@@ -47,6 +47,30 @@ class View(ttk.Frame):
         self.highest_res = ttk.Label(self.stats_frame, text="")
         self.highest_res.grid(row=1)
 
+        # Frequencies are down here!
+        # Frame for displaying the frequency plot.
+        self.freq_frame = tk.Frame(root)
+        self.freq_frame.grid(row=3)
+        # Another frame for controlling the frequency plot.
+        self.freq_control_frame = tk.Frame(root)
+        self.freq_control_frame.grid(row=4)
+        # Buttons are here for controlling it.
+        # By default, these are disabled until a file is loaded.
+        self.freq_switch_button = tk.Button(
+            self.freq_control_frame,
+            text="Display Next Frequency",
+            command=self.file_selection,
+            state="disabled"
+        )
+        self.freq_switch_button.grid(row=0)
+        self.all_freq_button = tk.Button(
+            self.freq_control_frame,
+            text="Display All Frequencies",
+            command=self.file_selection,
+            state="disabled"
+        )
+        self.all_freq_button.grid(row=1)
+
         # A controller will be set here.
         self.controller = None
 

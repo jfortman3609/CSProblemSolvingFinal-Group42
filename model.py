@@ -85,6 +85,7 @@ class Model:
 
     # Generates a plot of the waveform. As simple as is!
     def waveformPlot(self):
+        self.wave_ax.clear() # Used to clear out any previous graph stored
         # .wav file is read into samplerate and data
         samplerate, data = wavfile.read(self.dst)
         # time linspace made from how long the file lasts
